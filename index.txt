@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Amigo Secreto – Familia Tejeda Cataño</title>
+  <style>
+    :root{
+      --bg:#fafafa; --card:#ffffff; --ink:#1f2937; --muted:#6b7280; --accent:#b91c1c; --accentSoft:#fef2f2; --ring:#e11d48;
+      --radius:16px; --shadow:0 10px 30px rgba(0,0,0,.06);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",Arial}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    .wrap{max-width:1050px;margin:40px auto;padding:0 16px}
+    header{
+      display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px
+    }
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand .logo{width:42px;height:42px;border-radius:50%;background:radial-gradient(circle at 30% 30%, #fff 0 40%, #fca5a5 41% 100%);
+      box-shadow:var(--shadow);position:relative}
+    .brand .logo:before{
+      content:"";position:absolute;inset:auto auto 2px 2px;width:12px;height:12px;border-radius:2px;transform:rotate(45deg);
+      background:linear-gradient(135deg,#ef4444,#dc2626)
+    }
+    h1{font-size:clamp(20px,3vw,28px);margin:0}
+    .subtitle{color:var(--muted)}
+
+    .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+    .grid{display:grid;grid-template-columns:1fr;gap:16px}
+    @media(min-width:900px){
+      .grid{grid-template-columns:380px 1fr}
+    }
+
+    form{display:grid;gap:10px}
+    label{font-weight:600;font-size:14px}
+    input, select, textarea, button{
+      width:100%;padding:12px 14px;border:1px solid #e5e7eb;border-radius:12px;background:#fff;color:var(--ink);
+      outline:none
+    }
+    input:focus,select:focus,textarea:focus{border-color:var(--ring);box-shadow:0 0 0 3px rgba(225,29,72,.12)}
+    textarea{min-height:92px;resize:vertical}
+    .hint{font-size:12px;color:var(--muted)}
+    .actions{display:flex;gap:10px}
+    button{
+      border:none;cursor:pointer;font-weight:700
+    }
+    .btn-primary{background:var(--accent);color:#fff}
+    .btn-primary:hover{filter:brightness(.95)}
+    .btn-ghost{background:var(--accentSoft);color:var(--accent)}
+
+    .table-wrap{overflow:auto}
+    table{width:100%;border-collapse:separate;border-spacing:0 8px}
+    th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;text-align:left;color:var(--muted);padding:0 12px}
+    td{background:#fff;padding:14px 12px;vertical-align:top;border-top:1px solid #f3f4f6;border-bottom:1px solid #f3f4f6}
+    tr td:first-child{border-left:1px solid #f3f4f6;border-top-left-radius:12px;border-bottom-left-radius:12px}
+    tr td:last-child{border-right:1px solid #f3f4f6;border-top-right-radius:12px;border-bottom-right-radius:12px}
+    .pill{display:inline-block;padding:4px 10px;border-radius:999px;background:var(--accentSoft);color:var(--accent);font-weight:600;font-size:12px}
+
+    .toast{position:fixed;right:16px;bottom:16px;background:#111827;color:#fff;padding:12px 14px;border-radius:12px;
+      box-shadow:var(--shadow);opacity:0;transform:translateY(6px);transition:.25s}
+    .toast.show{opacity:1;transform:translateY(0)}
+
+    footer{margin:28px 0 16px;color:var(--muted);font-size:13px;text-align:center}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Amigo Secreto – Familia Tejeda Cataño</h1>
+          <div class="subtitle">🎄 ¿Preparado? · Presupuesto sugerido: S/200 c/u</div>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- Formulario -->
+      <section class="card">
+        <h2 style="margin:0 0 8px">Agregar propuesta de regalo</h2>
+        <p class="hint" style="margin-top:0">Sin login. Elige tu nombre, agrega tu idea, link y comentario.</p>
+        <form id="giftForm">
+          <div>
+            <label for="name">Nombre</label>
+            <select id="name" required>
+              <option value="" selected disabled>Selecciona tu nombre</option>
+              <option>Gladys</option>
+              <option>Raúl</option>
+              <option>Joselyn</option>
+              <option>Yasmin</option>
+            </select>
+          </div>
+          <div>
+            <label for="gift">Regalo (descripción)</label>
+            <input id="gift" type="text" placeholder="p. ej., Teclado Logitech K380 PEBBLE 2" required />
+          </div>
+          <div>
+            <label for="link">Enlace </label>
+            <input id="link" type="url" placeholder="https://..." />
+            <div class="hint">Incluye el link de tienda (Falabella, Amazon, etc.).</div>
+          </div>
+          <div>
+            <label for="note">Comentario </label>
+            <textarea id="note" placeholder="Color, talla, modelo, observaciones..."></textarea>
+          </div>
+          <div class="actions">
+            <button class="btn-primary" id="submitBtn" type="submit">Guardar</button>
+            <button class="btn-ghost" type="button" id="resetBtn">Limpiar</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Tabla -->
+      <section class="card">
+        <h2 style="margin:0 0 8px"> Lista de Regalos Navideños </h2>
+        <p class="hint" style="margin-top:0">Se muestran todas las propuestas sin distinguir quién es el “amigo secreto”.</p>
+        <div class="table-wrap">
+          <table id="giftTable">
+            <thead>
+              <tr>
+                <th>Persona</th>
+                <th>Regalo</th>
+                <th>Link</th>
+                <th>Comentario</th>
+                <th>Agregado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="5" class="hint" style="background:transparent;border:none;padding-left:0">Cargando…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+     Familia Tejeda Cataño · 2025
+    </footer>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">Guardado ✅</div>
+
+  <script>
+    // === CONFIGURA AQUÍ: URL del Web App de Apps Script ===
+    const API_URL = "https://script.google.com/macros/s/AKfycbyxsJW301w5vn6hI6NCnS9U6I4ClwBNtUJR5Vn3OpwTwUKTVCF7tcob2l8D1J1RQdVO/exec";
+
+    function showToast(msg){
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.classList.add('show');
+      setTimeout(()=>t.classList.remove('show'), 2200);
+    }
+
+    function sanitize(text){
+      return (text||"").toString().replace(/[\u0000-\u001F\u007F-\u009F]/g, "").slice(0, 1000);
+    }
+
+    async function loadGifts(){
+      const tbody = document.querySelector('#giftTable tbody');
+      tbody.innerHTML = `<tr><td colspan="5" class="hint" style="background:transparent;border:none;padding-left:0">Cargando…</td></tr>`;
+      try{
+        const res = await fetch(API_URL+"?list=1", {method:"GET", mode:"cors"});
+        if(!res.ok) throw new Error("Error al listar");
+        const data = await res.json();
+        const rows = (data.items||[]);
+        if(!rows.length){
+          tbody.innerHTML = `<tr><td colspan="5" class="hint" style="background:transparent;border:none;padding-left:0">Aún no hay propuestas. ¡Sé la/el primera/o! 🎁</td></tr>`;
+          return;
+        }
+        tbody.innerHTML = "";
+        for(const r of rows){
+          const tr = document.createElement('tr');
+          const linkCell = r.link ? `<a href="${r.link}" target="_blank" rel="noopener">Abrir</a>` : "—";
+          tr.innerHTML = `
+            <td><span class="pill">${r.name||"—"}</span></td>
+            <td>${r.gift||"—"}</td>
+            <td>${linkCell}</td>
+            <td>${r.note||"—"}</td>
+            <td>${r.when||"—"}</td>
+          `;
+          tbody.appendChild(tr);
+        }
+      }catch(err){
+        tbody.innerHTML = `<tr><td colspan="5" class="hint" style="background:transparent;border:none;padding-left:0;color:#b91c1c">No se pudo cargar. Verifica la URL del API.</td></tr>`;
+      }
+    }
+
+    async function submitGift(e){
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true; btn.textContent = 'Guardando…';
+      const payload = {
+        name: sanitize(document.getElementById('name').value),
+        gift: sanitize(document.getElementById('gift').value),
+        link: document.getElementById('link').value.trim(),
+        note: sanitize(document.getElementById('note').value)
+      };
+      try{
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          mode: 'cors',
+          headers: { 'Content-Type':'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if(!res.ok) throw new Error('Respuesta no OK');
+        const data = await res.json();
+        if(data.success){
+          showToast('Guardado ✅');
+          document.getElementById('giftForm').reset();
+          loadGifts();
+        } else {
+          showToast('No se pudo guardar');
+        }
+      }catch(err){
+        showToast('Error al guardar');
+      } finally {
+        btn.disabled = false; btn.textContent = 'Guardar';
+      }
+    }
+
+    document.getElementById('giftForm').addEventListener('submit', submitGift);
+    document.getElementById('resetBtn').addEventListener('click', ()=>document.getElementById('giftForm').reset());
+
+    // arranque
+    loadGifts();
+  </script>
+</body>
+</html>
